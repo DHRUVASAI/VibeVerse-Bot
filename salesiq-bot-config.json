@@ -51,7 +51,7 @@
       ],
       "webhook": {
         "enabled": true,
-        "url": "${WEBHOOK_URL}/salesiq/mood",
+        "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/mood",
         "method": "POST"
       }
     },
@@ -81,7 +81,7 @@
       ],
       "webhook": {
         "enabled": true,
-        "url": "${WEBHOOK_URL}/salesiq/recommend",
+        "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/recommend",
         "method": "POST"
       }
     },
@@ -113,7 +113,7 @@
       ],
       "webhook": {
         "enabled": true,
-        "url": "${WEBHOOK_URL}/salesiq/watchlist",
+        "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/watchlist",
         "method": "POST"
       }
     },
@@ -129,7 +129,7 @@
       ],
       "webhook": {
         "enabled": true,
-        "url": "${WEBHOOK_URL}/salesiq/history",
+        "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/history",
         "method": "POST"
       }
     },
@@ -152,7 +152,7 @@
       ],
       "webhook": {
         "enabled": true,
-        "url": "${WEBHOOK_URL}/salesiq/trending",
+        "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/trending",
         "method": "POST"
       }
     },
@@ -167,7 +167,7 @@
       ],
       "webhook": {
         "enabled": true,
-        "url": "${WEBHOOK_URL}/salesiq/summary",
+        "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/summary",
         "method": "POST"
       }
     },
@@ -239,7 +239,7 @@
         {
           "id": "3",
           "type": "webhook",
-          "url": "${WEBHOOK_URL}/salesiq/recommend"
+          "url": "https://zonal-generosity-production-dae7.up.railway.app/salesiq/recommend"
         },
         {
           "id": "4",

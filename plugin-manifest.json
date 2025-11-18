@@ -64,7 +64,7 @@
       }
     ],
     "webhook": {
-      "url": "${WEBHOOK_URL}",
+      "url": "https://zonal-generosity-production-dae7.up.railway.app",
       "events": [
         "bot.message",
         "bot.mention",
