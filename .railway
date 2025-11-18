@@ -1,0 +1,8 @@
+# Railway.app configuration
+# This file ensures Railway uses the Dockerfile for deployment
+
+# Use Docker builder
+RAILWAY_DOCKERFILE_PATH=Dockerfile
+
+# Root directory is the project root
+RAILWAY_RUN_UID=1000

@@ -1,0 +1,17 @@
+# Ignore frontend files and dependencies
+node_modules/
+pnpm-lock.yaml
+package.json
+index.html
+*.css
+script.js
+vite.config.js
+
+# Ignore documentation
+*.md
+!server/
+
+# Ignore IDE and system files
+.vscode/
+.git/
+.DS_Store
