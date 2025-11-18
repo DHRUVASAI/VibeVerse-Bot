@@ -1,12 +1,12 @@
 FROM node:18-alpine
 
-WORKDIR /app
+# Set working directory to server
+WORKDIR /app/server
 
-# Copy only server files
-COPY server/package*.json ./server/
+# Copy package files first for better caching
+COPY server/package*.json ./
 
 # Install dependencies
-WORKDIR /app/server
 RUN npm ci --only=production || npm install --only=production
 
 # Copy server source code
@@ -18,4 +18,5 @@ ENV NODE_ENV=production
 
 EXPOSE 5000
 
+# Start the server
 CMD ["node", "index.js"]
