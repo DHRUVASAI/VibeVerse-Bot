@@ -1,0 +1,165 @@
+{
+  "name": "VibeVerse",
+  "description": "Your Mood. Your Movie. AI-powered movie and music recommendations based on your current vibe.",
+  "version": "1.0.0",
+  "category": "entertainment",
+  "icon": "https://public-frontend-cos.metadl.com/mgx/img/favicon.png",
+  "developer": {
+    "name": "VibeVerse Team",
+    "website": "https://vibeverse.app"
+  },
+  "permissions": [
+    "bot.invoke",
+    "message.send",
+    "channel.read",
+    "user.read"
+  ],
+  "bot": {
+    "name": "VibeVerse Bot",
+    "unique_name": "vibeverse_bot",
+    "description": "Get personalized movie and music recommendations based on your mood",
+    "avatar": "https://public-frontend-cos.metadl.com/mgx/img/favicon.png",
+    "commands": [
+      {
+        "name": "/mood",
+        "description": "Select your current mood to get recommendations",
+        "hint": "[happy|sad|romantic|thriller|action|...]",
+        "help": "Usage: /mood happy - Get recommendations based on your mood"
+      },
+      {
+        "name": "/recommend",
+        "description": "Get instant recommendations",
+        "hint": "[mood] [movies|music|both]",
+        "help": "Usage: /recommend happy movies - Get movie recommendations for happy mood"
+      },
+      {
+        "name": "/watchlist",
+        "description": "Manage your personal watchlist",
+        "hint": "[add|view|clear] [movie-name]",
+        "help": "Usage: /watchlist add Inception - Add a movie to your watchlist"
+      },
+      {
+        "name": "/history",
+        "description": "View your mood history and past recommendations",
+        "hint": "[week|month|all]",
+        "help": "Usage: /history week - View your mood history for the past week"
+      },
+      {
+        "name": "/trending",
+        "description": "Get trending content filtered by mood",
+        "hint": "[mood]",
+        "help": "Usage: /trending happy - Get trending happy content"
+      },
+      {
+        "name": "/summary",
+        "description": "Get your weekly vibe-based watchlist summary",
+        "hint": "",
+        "help": "Usage: /summary - Get your personalized weekly summary"
+      },
+      {
+        "name": "/filter",
+        "description": "Apply filters to your recommendations",
+        "hint": "[genre|year|language] [value]",
+        "help": "Usage: /filter genre comedy - Filter recommendations by genre"
+      }
+    ],
+    "webhook": {
+      "url": "${WEBHOOK_URL}",
+      "events": [
+        "bot.message",
+        "bot.mention",
+        "bot.command"
+      ]
+    }
+  },
+  "functions": [
+    {
+      "name": "getMoodRecommendations",
+      "description": "Get movie and music recommendations based on mood",
+      "parameters": [
+        {
+          "name": "mood",
+          "type": "string",
+          "required": true,
+          "description": "User's current mood"
+        },
+        {
+          "name": "contentType",
+          "type": "string",
+          "required": false,
+          "description": "Type of content: movies, music, or both"
+        }
+      ]
+    },
+    {
+      "name": "saveMoodHistory",
+      "description": "Save user's mood selection to history",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "mood",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "getWatchlistSummary",
+      "description": "Generate weekly watchlist summary",
+      "parameters": [
+        {
+          "name": "userId",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "getTrendingByMood",
+      "description": "Get trending content filtered by mood",
+      "parameters": [
+        {
+          "name": "mood",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "tmdb_api_key": {
+      "type": "string",
+      "label": "TMDB API Key",
+      "description": "Your TMDB API key for movie data"
+    },
+    "youtube_api_key": {
+      "type": "string",
+      "label": "YouTube API Key",
+      "description": "Your YouTube API key for music videos"
+    },
+    "spotify_client_id": {
+      "type": "string",
+      "label": "Spotify Client ID",
+      "description": "Your Spotify Client ID"
+    },
+    "spotify_client_secret": {
+      "type": "string",
+      "label": "Spotify Client Secret",
+      "description": "Your Spotify Client Secret"
+    },
+    "database_url": {
+      "type": "string",
+      "label": "Database Connection URL",
+      "description": "MongoDB or PostgreSQL connection string"
+    },
+    "zoho_crm_token": {
+      "type": "string",
+      "label": "Zoho CRM API Token",
+      "description": "Optional: Token for CRM integration"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: vibeverse-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: TMDB_API_KEY
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: SPOTIFY_CLIENT_ID
+        sync: false
+      - key: SPOTIFY_CLIENT_SECRET
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: ZOHO_CRM_ACCESS_TOKEN
+        sync: false
+      - key: ZOHO_CRM_REFRESH_TOKEN
+        sync: false
+      - key: ZOHO_CRM_CLIENT_ID
+        sync: false
+      - key: ZOHO_CRM_CLIENT_SECRET
+        sync: false
+      - key: CLIQ_WEBHOOK_SECRET
+        sync: false
+      - key: ENABLE_CLIQ_BOT
+        value: "true"
+      - key: ENABLE_SALESIQ_BOT
+        value: "true"
+      - key: ENABLE_AUTO_CRM_SYNC
+        value: "false"
+    healthCheckPath: /api/health

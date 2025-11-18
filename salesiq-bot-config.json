@@ -1,0 +1,307 @@
+{
+  "bot": {
+    "name": "VibeVerse Assistant",
+    "description": "Your personal movie and music recommendation assistant",
+    "avatar": "https://public-frontend-cos.metadl.com/mgx/img/favicon.png",
+    "greeting": "👋 Welcome to VibeVerse! I'm here to help you discover the perfect movies and music for your mood. How are you feeling today?",
+    "fallback_message": "I'm not sure I understand. Try asking me about movie recommendations, mood selection, or your watchlist!",
+    "language": "en",
+    "timezone": "UTC"
+  },
+  "intents": [
+    {
+      "name": "greeting",
+      "training_phrases": [
+        "hi",
+        "hello",
+        "hey",
+        "good morning",
+        "good evening",
+        "what's up"
+      ],
+      "responses": [
+        "Hello! 👋 How are you feeling today? I can help you find movies and music that match your vibe!",
+        "Hey there! 🎬 Ready to discover some amazing content? Tell me your mood!",
+        "Hi! 🎵 I'm here to help you find the perfect entertainment. What's your mood right now?"
+      ]
+    },
+    {
+      "name": "select_mood",
+      "training_phrases": [
+        "I'm feeling happy",
+        "I'm sad",
+        "feeling romantic",
+        "I want something thrilling",
+        "in an action mood",
+        "need a comedy",
+        "feeling adventurous",
+        "I'm in a {mood} mood",
+        "recommend something for {mood}",
+        "I'm {mood} today"
+      ],
+      "parameters": [
+        {
+          "name": "mood",
+          "type": "@mood_type",
+          "required": true,
+          "prompts": [
+            "What mood are you in? (happy, sad, romantic, thriller, action, comedy, etc.)"
+          ]
+        }
+      ],
+      "webhook": {
+        "enabled": true,
+        "url": "${WEBHOOK_URL}/salesiq/mood",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "get_recommendations",
+      "training_phrases": [
+        "recommend me a movie",
+        "suggest some music",
+        "what should I watch",
+        "give me recommendations",
+        "recommend {mood} movies",
+        "suggest {mood} music",
+        "I want to watch something {mood}",
+        "show me {contentType} for {mood} mood"
+      ],
+      "parameters": [
+        {
+          "name": "mood",
+          "type": "@mood_type",
+          "required": false
+        },
+        {
+          "name": "contentType",
+          "type": "@content_type",
+          "required": false
+        }
+      ],
+      "webhook": {
+        "enabled": true,
+        "url": "${WEBHOOK_URL}/salesiq/recommend",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "manage_watchlist",
+      "training_phrases": [
+        "show my watchlist",
+        "view watchlist",
+        "add to watchlist",
+        "add {movieName} to watchlist",
+        "remove from watchlist",
+        "clear my watchlist",
+        "what's on my watchlist"
+      ],
+      "parameters": [
+        {
+          "name": "action",
+          "type": "@watchlist_action",
+          "required": true,
+          "prompts": [
+            "Would you like to view, add, or remove from your watchlist?"
+          ]
+        },
+        {
+          "name": "movieName",
+          "type": "@sys.any",
+          "required": false
+        }
+      ],
+      "webhook": {
+        "enabled": true,
+        "url": "${WEBHOOK_URL}/salesiq/watchlist",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "view_history",
+      "training_phrases": [
+        "show my mood history",
+        "what moods have I selected",
+        "my history",
+        "past recommendations",
+        "show my stats",
+        "my mood stats"
+      ],
+      "webhook": {
+        "enabled": true,
+        "url": "${WEBHOOK_URL}/salesiq/history",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "get_trending",
+      "training_phrases": [
+        "what's trending",
+        "show trending movies",
+        "popular movies",
+        "trending {mood} content",
+        "what's popular for {mood}",
+        "trending today"
+      ],
+      "parameters": [
+        {
+          "name": "mood",
+          "type": "@mood_type",
+          "required": false
+        }
+      ],
+      "webhook": {
+        "enabled": true,
+        "url": "${WEBHOOK_URL}/salesiq/trending",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "weekly_summary",
+      "training_phrases": [
+        "weekly summary",
+        "my weekly report",
+        "show my summary",
+        "what did I watch this week",
+        "my stats this week"
+      ],
+      "webhook": {
+        "enabled": true,
+        "url": "${WEBHOOK_URL}/salesiq/summary",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "help",
+      "training_phrases": [
+        "help",
+        "what can you do",
+        "how does this work",
+        "commands",
+        "features"
+      ],
+      "responses": [
+        "I can help you with:\n\n🎭 **Mood Selection** - Tell me how you're feeling\n🎬 **Recommendations** - Get movie and music suggestions\n📝 **Watchlist** - Manage your personal watchlist\n📊 **History** - View your mood history and stats\n🔥 **Trending** - See what's popular\n📅 **Summary** - Get your weekly summary\n\nJust tell me what you need!"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "name": "mood_type",
+      "values": [
+        { "value": "happy", "synonyms": ["joyful", "cheerful", "upbeat", "positive"] },
+        { "value": "sad", "synonyms": ["melancholic", "down", "blue", "depressed"] },
+        { "value": "romantic", "synonyms": ["love", "lovey", "sentimental"] },
+        { "value": "thriller", "synonyms": ["suspense", "tense", "edge"] },
+        { "value": "action", "synonyms": ["energetic", "intense", "adrenaline"] },
+        { "value": "comedy", "synonyms": ["funny", "humorous", "lighthearted"] },
+        { "value": "drama", "synonyms": ["emotional", "serious", "deep"] },
+        { "value": "adventure", "synonyms": ["exciting", "exploring", "journey"] },
+        { "value": "horror", "synonyms": ["scary", "frightening", "spooky"] },
+        { "value": "mystery", "synonyms": ["puzzle", "detective", "whodunit"] },
+        { "value": "sci-fi", "synonyms": ["science fiction", "futuristic", "space"] },
+        { "value": "fantasy", "synonyms": ["magical", "enchanted", "mystical"] }
+      ]
+    },
+    {
+      "name": "content_type",
+      "values": [
+        { "value": "movies", "synonyms": ["films", "cinema", "movie"] },
+        { "value": "music", "synonyms": ["songs", "tracks", "playlist"] },
+        { "value": "both", "synonyms": ["everything", "all"] }
+      ]
+    },
+    {
+      "name": "watchlist_action",
+      "values": [
+        { "value": "view", "synonyms": ["show", "display", "list"] },
+        { "value": "add", "synonyms": ["insert", "include", "save"] },
+        { "value": "remove", "synonyms": ["delete", "take out"] },
+        { "value": "clear", "synonyms": ["empty", "reset"] }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "name": "mood_recommendation_flow",
+      "description": "Complete flow from mood selection to recommendations",
+      "steps": [
+        {
+          "id": "1",
+          "type": "message",
+          "content": "Great! Let me help you find something perfect for your mood. 🎬"
+        },
+        {
+          "id": "2",
+          "type": "intent",
+          "intent": "select_mood"
+        },
+        {
+          "id": "3",
+          "type": "webhook",
+          "url": "${WEBHOOK_URL}/salesiq/recommend"
+        },
+        {
+          "id": "4",
+          "type": "message",
+          "content": "Would you like to add any of these to your watchlist?"
+        },
+        {
+          "id": "5",
+          "type": "intent",
+          "intent": "manage_watchlist"
+        }
+      ]
+    }
+  ],
+  "quick_replies": [
+    {
+      "label": "😊 Happy",
+      "action": "select_mood",
+      "payload": { "mood": "happy" }
+    },
+    {
+      "label": "💕 Romantic",
+      "action": "select_mood",
+      "payload": { "mood": "romantic" }
+    },
+    {
+      "label": "😱 Thriller",
+      "action": "select_mood",
+      "payload": { "mood": "thriller" }
+    },
+    {
+      "label": "💥 Action",
+      "action": "select_mood",
+      "payload": { "mood": "action" }
+    },
+    {
+      "label": "😂 Comedy",
+      "action": "select_mood",
+      "payload": { "mood": "comedy" }
+    },
+    {
+      "label": "📝 My Watchlist",
+      "action": "manage_watchlist",
+      "payload": { "action": "view" }
+    },
+    {
+      "label": "🔥 Trending",
+      "action": "get_trending",
+      "payload": {}
+    },
+    {
+      "label": "📊 My Stats",
+      "action": "view_history",
+      "payload": {}
+    }
+  ],
+  "settings": {
+    "enable_typing_indicator": true,
+    "response_delay_ms": 500,
+    "enable_fallback": true,
+    "confidence_threshold": 0.7,
+    "context_lifetime": 600,
+    "enable_sentiment_analysis": true
+  }
+}
