@@ -1,236 +1,213 @@
-# VibeVerse Backend Deployment Guide
+# 🚀 VibeVerse Backend Deployment Guide
 
-## 🚀 Quick Deployment Options
+## Quick Deploy Options
 
-### Option 1: Railway (Recommended - Easiest)
+### Option 1: Railway (Recommended - Easiest) ⭐
 
-1. **Sign up at [Railway.app](https://railway.app)**
-2. **Install Railway CLI** (optional):
-   ```bash
-   npm install -g @railway/cli
-   ```
+1. **Go to [Railway.app](https://railway.app/)** and sign in with GitHub
+2. Click **"New Project"** → **"Deploy from GitHub repo"**
+3. Select your **VibeVerse-Bot** repository
+4. Railway will auto-detect Node.js and deploy
+5. **Add Environment Variables**:
+   - Click on your service → **Variables** tab
+   - Add all variables from `server/.env.template`
+6. **Get your URL**: 
+   - Click **Settings** → Find your **Public Domain**
+   - Example: `https://vibeverse-bot-production.up.railway.app`
 
-3. **Deploy via GitHub:**
-   - Go to [railway.app/new](https://railway.app/new)
-   - Click "Deploy from GitHub repo"
-   - Select your `FEDF_30009` repository
-   - Set root directory to `/server`
-   - Railway will auto-detect Node.js
-
-4. **Configure Environment Variables:**
-   Go to your project → Variables → Add all from `.env`:
-   ```
-   TMDB_API_KEY=e04853aa5fd407eef838275300f6c430
-   YOUTUBE_API_KEY=<your_key>
-   SPOTIFY_CLIENT_ID=3a8f1fcc6a1f44eba99c4df08018ad46
-   SPOTIFY_CLIENT_SECRET=a4c37da0a21e4b9c9b99acf1e8af5a31
-   ENABLE_CLIQ_BOT=true
-   ENABLE_SALESIQ_BOT=true
-   PORT=5000
-   ```
-
-5. **Get Your URL:**
-   - Railway will provide: `https://vibeverse-backend-production.up.railway.app`
-   - Copy this URL for webhook configuration
+**Cost**: Free tier includes 500 hours/month (enough for testing)
 
 ---
 
-### Option 2: Render.com (Free Tier Available)
+### Option 2: Render (Free Plan Available)
 
-1. **Sign up at [Render.com](https://render.com)**
+1. **Go to [Render.com](https://render.com/)** and sign in with GitHub
+2. Click **"New +"** → **"Web Service"**
+3. Connect your **VibeVerse-Bot** repository
+4. Configure:
+   - **Name**: `vibeverse-backend`
+   - **Root Directory**: `server`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+5. **Add Environment Variables** (from Environment tab)
+6. Click **"Create Web Service"**
+7. **Get your URL**: 
+   - Example: `https://vibeverse-backend.onrender.com`
 
-2. **Deploy:**
-   - Click "New +" → "Web Service"
-   - Connect GitHub repository
-   - Set root directory: `server`
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-
-3. **Add Environment Variables** (same as Railway)
-
-4. **Your URL:** `https://vibeverse-backend.onrender.com`
+**Cost**: Free (service spins down after 15 min of inactivity)
 
 ---
 
-### Option 3: Heroku (Simple CLI Deployment)
+### Option 3: Heroku (Classic Option)
 
-1. **Install Heroku CLI:**
+1. **Install Heroku CLI**: `npm install -g heroku`
+2. **Login**: `heroku login`
+3. **Create app**:
    ```bash
-   npm install -g heroku
+   cd "c:\Users\Dhruva Sai\Desktop\VibeVerseZOHO\VibeVerse"
+   heroku create vibeverse-bot-yourname
    ```
-
-2. **Login and Create App:**
+4. **Set environment variables**:
    ```bash
-   heroku login
-   cd server
-   heroku create vibeverse-backend
+   heroku config:set TMDB_API_KEY=your_key_here
+   heroku config:set YOUTUBE_API_KEY=your_key_here
+   # Add all other variables from .env.template
    ```
-
-3. **Set Environment Variables:**
+5. **Deploy**:
    ```bash
-   heroku config:set TMDB_API_KEY=e04853aa5fd407eef838275300f6c430
-   heroku config:set SPOTIFY_CLIENT_ID=3a8f1fcc6a1f44eba99c4df08018ad46
-   heroku config:set SPOTIFY_CLIENT_SECRET=a4c37da0a21e4b9c9b99acf1e8af5a31
-   heroku config:set ENABLE_CLIQ_BOT=true
-   heroku config:set ENABLE_SALESIQ_BOT=true
-   ```
-
-4. **Deploy:**
-   ```bash
-   git add .
-   git commit -m "Deploy to Heroku"
    git push heroku master
    ```
+6. **Get your URL**: `https://vibeverse-bot-yourname.herokuapp.com`
 
-5. **Your URL:** `https://vibeverse-backend.herokuapp.com`
-
----
-
-### Option 4: Vercel (Serverless)
-
-1. **Install Vercel CLI:**
-   ```bash
-   npm install -g vercel
-   ```
-
-2. **Deploy from server directory:**
-   ```bash
-   cd server
-   vercel
-   ```
-
-3. **Add Environment Variables** via Vercel Dashboard
-
-4. **Your URL:** `https://vibeverse-backend.vercel.app`
+**Cost**: Free tier discontinued, paid plans start at $5/month
 
 ---
 
-## 📝 After Deployment
+### Option 4: Azure App Service
 
-### 1. Test Your Deployed Backend
+1. **Go to [Azure Portal](https://portal.azure.com)**
+2. Create **App Service** → **Web App**
+3. Configure:
+   - **Runtime**: Node 18 LTS
+   - **Pricing**: Free F1
+4. **Deploy**:
+   - Use VS Code Azure Extension, or
+   - GitHub Actions (Azure generates workflow)
+5. **Add environment variables** in **Configuration** → **Application settings**
+6. **Get your URL**: `https://vibeverse-bot.azurewebsites.net`
+
+---
+
+## 📝 After Deployment: Update Webhook URLs
+
+Once deployed, you need to update the webhook URLs in your manifest files:
+
+### Update Cliq Extension Manifest
 
 ```bash
-# Replace with your actual URL
-curl https://your-app-url.railway.app/api/health
+# Replace YOUR_DEPLOYED_URL with your actual URL
+cd "c:\Users\Dhruva Sai\Desktop\VibeVerseZOHO\VibeVerse"
 ```
 
-Expected response:
+Edit `plugin-manifest.json`:
+- Change all webhook URLs from `http://localhost:5000` to `https://YOUR_DEPLOYED_URL`
+
+Example:
 ```json
-{
-  "ok": true,
-  "services": {
-    "cliqBot": true,
-    "salesiqBot": true,
-    "database": false,
-    "scheduler": false,
-    "crm": false
-  }
+"webhook": {
+  "url": "https://vibeverse-bot-production.up.railway.app/bot/webhook"
 }
 ```
 
-### 2. Update Webhook URLs
+### Update SalesIQ Bot Config
 
-Run the provided PowerShell script to automatically update all webhook URLs:
-
-```powershell
-.\update-webhook-urls.ps1 -DeployedUrl "https://your-app-url.railway.app"
-```
-
-Or manually update these files:
-- `plugin-manifest.json` - Update all webhook URLs
-- `salesiq-bot-config.json` - Update webhook endpoints
-
-### 3. Configure in Zoho Cliq
-
-1. Go to [Zoho Cliq Developer Console](https://cliq.zoho.com/api/v2)
-2. Click "Create Extension"
-3. Upload `plugin-manifest.json`
-4. Install extension to your organization
-5. Test commands:
-   - `/vibeverse mood`
-   - `/vibeverse recommend`
-   - `/vibeverse trending`
-
-### 4. Configure in Zoho SalesIQ
-
-1. Go to SalesIQ Settings → Bots
-2. Click "Add Bot" → "Import Bot"
-3. Upload `salesiq-bot-config.json`
-4. Configure webhook URLs in bot settings
-5. Test on your website
+Edit `salesiq-bot-config.json`:
+- Change all webhook URLs to your deployed URL
 
 ---
 
-## 🔧 Environment Variables Reference
+## 🔧 Environment Variables to Set
 
-### Required (Minimum)
-- `TMDB_API_KEY` - Already in .env (e04853aa5fd407eef838275300f6c430)
-- `SPOTIFY_CLIENT_ID` - Already in .env (3a8f1fcc6a1f44eba99c4df08018ad46)
-- `SPOTIFY_CLIENT_SECRET` - Already in .env (a4c37da0a21e4b9c9b99acf1e8af5a31)
+Copy these from `server/.env.template` and add your values:
+
+### Required (for basic functionality):
+- `TMDB_API_KEY` - Get from [TMDB](https://www.themoviedb.org/settings/api)
+- `YOUTUBE_API_KEY` - Get from [Google Cloud Console](https://console.cloud.google.com/)
+
+### Optional (for music features):
+- `SPOTIFY_CLIENT_ID`
+- `SPOTIFY_CLIENT_SECRET`
+
+### Optional (for data persistence):
+- `MONGODB_URI` - Get from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+
+### Optional (for CRM sync):
+- `ZOHO_CRM_ACCESS_TOKEN`
+- `ZOHO_CRM_REFRESH_TOKEN`
+- `ZOHO_CRM_CLIENT_ID`
+- `ZOHO_CRM_CLIENT_SECRET`
+
+### Bot Configuration:
 - `ENABLE_CLIQ_BOT=true`
 - `ENABLE_SALESIQ_BOT=true`
 
-### Optional (Enhanced Features)
-- `YOUTUBE_API_KEY` - For YouTube music videos
-- `MONGODB_URI` - For data persistence
-- `ZOHO_CRM_ACCESS_TOKEN` - For CRM integration
-- `ZOHO_CRM_REFRESH_TOKEN` - For CRM token refresh
-- `ZOHO_CRM_CLIENT_ID` - CRM OAuth client
-- `ZOHO_CRM_CLIENT_SECRET` - CRM OAuth secret
-- `ENABLE_AUTO_CRM_SYNC=true` - Auto-sync to CRM
+---
+
+## ✅ Testing Your Deployment
+
+### 1. Test Health Endpoint
+```bash
+curl https://YOUR_DEPLOYED_URL/api/health
+```
+
+Should return:
+```json
+{"ok":true,"services":{...}}
+```
+
+### 2. Test TMDB Endpoint
+```bash
+curl https://YOUR_DEPLOYED_URL/api/tmdb/movie/550
+```
+
+Should return Fight Club movie data.
+
+### 3. Test Bot Webhook
+In Cliq or SalesIQ, configure the webhook URL and test a command.
 
 ---
 
-## 📊 Deployment Checklist
+## 🐛 Troubleshooting
 
-- [ ] Choose deployment platform (Railway recommended)
-- [ ] Deploy backend to cloud
-- [ ] Verify deployment with health check
-- [ ] Copy deployed URL
-- [ ] Run webhook URL update script
-- [ ] Upload extension to Cliq
-- [ ] Test all bot commands
-- [ ] Upload bot to SalesIQ
-- [ ] Test conversational flows
-- [ ] Record demo video
-- [ ] Prepare submission documentation
+### Service won't start:
+- Check logs in your platform dashboard
+- Verify all environment variables are set
+- Ensure `PORT` is set correctly (Railway/Render auto-set this)
+
+### 404 errors:
+- Verify webhook URLs don't have trailing slashes
+- Check that routes match exactly
+
+### API errors:
+- Verify TMDB_API_KEY is valid
+- Check CORS settings if calling from frontend
+
+---
+
+## 📦 What Gets Deployed
+
+Your deployment includes:
+- ✅ Express backend server
+- ✅ TMDB movie API proxy
+- ✅ YouTube music API proxy
+- ✅ Cliq bot webhook handler
+- ✅ SalesIQ bot webhook handler
+- ✅ MongoDB integration (if configured)
+- ✅ Zoho CRM sync (if configured)
+- ✅ Scheduled jobs (mood summaries, cache refresh)
 
 ---
 
 ## 🎯 Next Steps
 
-1. **Deploy Now:** Follow Railway deployment steps above (5 minutes)
-2. **Update URLs:** Run the PowerShell script to update webhooks
-3. **Test:** Install in Cliq and test commands
-4. **Submit:** Upload to Zoho Marketplace
+After deployment:
+1. ✅ Update webhook URLs in manifest files
+2. ✅ Test all endpoints
+3. ✅ Install extension in Cliq or configure SalesIQ bot
+4. ✅ Test bot commands
+5. ✅ Record demo video
+6. ✅ Submit to Zoho Marketplace
 
 ---
 
-## 🆘 Troubleshooting
+## 💡 Recommended: Railway
 
-**Bot not responding?**
-- Check webhook URL is correct
-- Verify environment variables are set
-- Check server logs for errors
+For this project, I recommend **Railway** because:
+- ✅ Easiest setup (auto-detects everything)
+- ✅ Free tier is generous
+- ✅ Doesn't sleep (unlike Render free tier)
+- ✅ Simple environment variable management
+- ✅ GitHub integration
+- ✅ Great for Node.js apps
 
-**Commands not working?**
-- Ensure bot is installed in Cliq
-- Check command syntax matches manifest
-- Verify authentication tokens
-
-**API errors?**
-- Check TMDB API key is valid
-- Verify Spotify credentials
-- Check rate limits
-
----
-
-## 📞 Support
-
-For deployment issues:
-1. Check Railway/Render logs
-2. Test health endpoint
-3. Verify environment variables
-4. Check network connectivity
-
-Your backend is ready to deploy! Choose a platform and follow the guide above.
+**Deploy Now**: [railway.app/new](https://railway.app/new)

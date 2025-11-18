@@ -1,239 +1,240 @@
-# VibeVerse - Submission Checklist
+# ✅ VibeVerse - Zoho Submission Checklist
 
-## 📋 Pre-Submission Checklist
+## 📋 Pre-Deployment
 
-### ✅ Development Complete
-- [x] Cliq extension with bot commands
-- [x] SalesIQ conversational bot
-- [x] Database schema and models
-- [x] CRM integration workflow
-- [x] API integrations (TMDB, Spotify, YouTube)
-- [x] Complete documentation
-
-### 🚀 Deployment
-
-#### Backend Deployment
-- [ ] Choose cloud platform (Railway/Render/Heroku)
-- [ ] Deploy backend to production
-- [ ] Verify deployment URL is accessible
-- [ ] Run health check: `curl https://YOUR-URL/api/health`
-- [ ] Note deployed URL: ___________________________________
-
-#### Environment Configuration
-- [ ] Set `TMDB_API_KEY` in production
-- [ ] Set `SPOTIFY_CLIENT_ID` in production
-- [ ] Set `SPOTIFY_CLIENT_SECRET` in production
-- [ ] Set `ENABLE_CLIQ_BOT=true`
-- [ ] Set `ENABLE_SALESIQ_BOT=true`
-- [ ] Set `MONGODB_URI` (optional, for persistence)
-- [ ] Set Zoho CRM credentials (optional, for CRM sync)
-
-#### Webhook Configuration
-- [ ] Run: `.\update-webhook-urls.ps1 -DeployedUrl "YOUR-URL"`
-- [ ] Verify plugin-manifest.json has correct URLs
-- [ ] Verify salesiq-bot-config.json has correct URLs
-- [ ] Test backend: `.\test-bot.ps1 -BackendUrl "YOUR-URL"`
+- [ ] All features tested locally
+- [ ] Backend server running on `http://localhost:5000`
+- [ ] Frontend working on `http://localhost:5173`
+- [ ] Environment variables configured in `server/.env`
+- [ ] Bot commands working
+- [ ] Database integration tested (if using MongoDB)
 
 ---
 
-## 🧪 Testing
+## 🚀 Deployment Steps
 
-### Cliq Extension Testing
-- [ ] Go to [Zoho Cliq Developer Console](https://cliq.zoho.com/api/v2)
-- [ ] Create new extension
-- [ ] Upload `plugin-manifest.json`
-- [ ] Install extension to organization
-- [ ] Test commands:
-  - [ ] `/vibeverse mood` - Mood selection works
-  - [ ] `/vibeverse recommend` - Shows recommendations
-  - [ ] `/vibeverse trending` - Displays trending content
-  - [ ] `/vibeverse watchlist` - Manages watchlist
-  - [ ] `/vibeverse history` - Shows mood history
-  - [ ] `/vibeverse summary` - Weekly summary works
-  - [ ] `/vibeverse filter` - Language/year filters work
-- [ ] Test interactive cards and buttons
-- [ ] Verify all API responses work
+### 1. Choose Deployment Platform
+- [ ] Railway (Recommended) ⭐
+- [ ] Render
+- [ ] Heroku
+- [ ] Azure App Service
 
-### SalesIQ Bot Testing
-- [ ] Go to SalesIQ Settings → Bots
-- [ ] Click "Add Bot" → "Import Bot"
-- [ ] Upload `salesiq-bot-config.json`
-- [ ] Configure webhook URLs
-- [ ] Test conversational flows:
-  - [ ] Greeting intent responds
-  - [ ] Mood selection works
-  - [ ] Recommendations display correctly
-  - [ ] Watchlist management functions
-  - [ ] History retrieval works
-  - [ ] Trending content shows
-  - [ ] Weekly summary generates
-- [ ] Test entity extraction (mood, content type)
-- [ ] Verify quick replies work
-- [ ] Test fallback responses
+### 2. Deploy Backend
+- [ ] Create account on chosen platform
+- [ ] Connect GitHub repository: `https://github.com/DHRUVASAI/VibeVerse-Bot`
+- [ ] Configure build settings:
+  - Root directory: `server`
+  - Build command: `npm install`
+  - Start command: `npm start`
+- [ ] Add environment variables (see DEPLOYMENT_GUIDE.md)
+- [ ] Deploy and wait for success
+- [ ] Copy deployed URL (e.g., `https://vibeverse-bot.railway.app`)
 
-### Integration Testing
-- [ ] Verify TMDB API returns movies
-- [ ] Check streaming providers for India
-- [ ] Test Spotify playlist retrieval
-- [ ] Verify YouTube search works
-- [ ] Test MongoDB connection (if enabled)
-- [ ] Check CRM sync (if enabled)
+### 3. Update Webhook URLs
+- [ ] Run update script:
+  ```powershell
+  .\update-webhooks.ps1 https://YOUR-DEPLOYED-URL
+  ```
+  OR
+  ```bash
+  ./update-webhooks.sh https://YOUR-DEPLOYED-URL
+  ```
+- [ ] Verify changes in:
+  - [ ] `plugin-manifest.json`
+  - [ ] `salesiq-bot-config.json`
+- [ ] Commit and push changes:
+  ```bash
+  git add .
+  git commit -m "Update webhook URLs to production"
+  git push origin master
+  ```
+
+### 4. Test Deployed Backend
+- [ ] Test health endpoint:
+  ```bash
+  curl https://YOUR-DEPLOYED-URL/api/health
+  ```
+- [ ] Test TMDB API:
+  ```bash
+  curl https://YOUR-DEPLOYED-URL/api/tmdb/movie/550
+  ```
+- [ ] Test bot webhook:
+  ```bash
+  curl -X POST https://YOUR-DEPLOYED-URL/bot/webhook -H "Content-Type: application/json" -d '{"text":"/mood happy"}'
+  ```
 
 ---
 
-## 📹 Demo Preparation
+## 🤖 Cliq Extension Testing
 
-### Video Recording
-- [ ] Record 2-3 minute demo video
-- [ ] Show Cliq bot in action
-- [ ] Demonstrate SalesIQ bot conversation
-- [ ] Highlight key features:
-  - [ ] Mood-based recommendations
-  - [ ] Interactive cards and buttons
+### 5. Install in Cliq
+- [ ] Go to Zoho Cliq → **Marketplace** → **Build**
+- [ ] Create new extension → Upload `plugin-manifest.json`
+- [ ] Configure webhook secret (if required)
+- [ ] Install extension to your Cliq workspace
+
+### 6. Test Cliq Bot Commands
+- [ ] `/mood` - Mood selection works
+- [ ] `/recommend happy movies` - Returns movie recommendations
+- [ ] `/recommend sad music` - Returns music recommendations
+- [ ] `/filter language:English year:2023` - Filters work
+- [ ] `/watchlist add Inception` - Watchlist add works
+- [ ] `/watchlist view` - Shows watchlist
+- [ ] `/history week` - Shows mood history
+- [ ] `/trending action` - Shows trending by mood
+- [ ] `/summary` - Generates weekly summary
+
+### 7. Test Interactive Cards
+- [ ] Mood selection buttons work
+- [ ] Movie recommendation cards display correctly
+- [ ] "Where to Watch" buttons work
+- [ ] "Add to Watchlist" buttons work
+- [ ] Filter forms submit correctly
+- [ ] Navigation buttons work
+
+---
+
+## 💬 SalesIQ Bot Testing (Alternative)
+
+### 8. Configure in SalesIQ
+- [ ] Go to Zoho SalesIQ → **Settings** → **Bots**
+- [ ] Create new bot → Import `salesiq-bot-config.json`
+- [ ] Configure webhook endpoints
+- [ ] Enable bot on website
+
+### 9. Test SalesIQ Bot Intents
+- [ ] Greeting intent triggers welcome message
+- [ ] "I'm feeling happy" → Mood selection works
+- [ ] "Show me movies" → Returns recommendations
+- [ ] "Add to watchlist" → Watchlist functionality works
+- [ ] "Show my history" → Displays mood history
+- [ ] "What's trending" → Shows trending content
+- [ ] Webhook responses are fast (<3 seconds)
+
+---
+
+## 📊 Database & CRM Testing (Optional)
+
+### 10. MongoDB Integration (if configured)
+- [ ] User profiles saved to database
+- [ ] Mood history tracked correctly
+- [ ] Watchlist persists across sessions
+- [ ] Weekly summaries generated
+- [ ] Trending cache updates
+
+### 11. Zoho CRM Sync (if configured)
+- [ ] New users synced as leads
+- [ ] Mood activities logged
+- [ ] Watchlist synced as notes
+- [ ] CRM data visible in Zoho CRM
+
+---
+
+## 📹 Demo Video & Documentation
+
+### 12. Create Demo Video
+- [ ] Record 2-3 minute demo showing:
+  - [ ] Mood selection
+  - [ ] Movie recommendations
+  - [ ] Music recommendations
   - [ ] Watchlist management
-  - [ ] CRM workflow (if implemented)
-  - [ ] Data persistence
-- [ ] Show mobile responsiveness (if applicable)
-- [ ] Include voiceover explaining features
+  - [ ] Mood history
+  - [ ] Trending content
+  - [ ] Filters in action
+- [ ] Upload to YouTube/Vimeo
+- [ ] Add video link to README
 
-### Screenshots
-- [ ] Cliq bot command examples
-- [ ] Interactive card responses
-- [ ] SalesIQ chat conversation
-- [ ] Recommendation results
-- [ ] Watchlist interface
-- [ ] Backend architecture diagram
-
----
-
-## 📄 Documentation
-
-### Required Files
-- [x] `README.md` - Project overview
-- [x] `DEPLOYMENT_GUIDE.md` - Deployment instructions
-- [x] `QUICK_DEPLOY.md` - Quick start guide
-- [x] `CLIQ_SALESIQ_README.md` - Bot documentation
-- [x] `SETUP_GUIDE.md` - Setup instructions
-- [x] `BOT_QUICK_REFERENCE.md` - Command reference
-- [x] `IMPLEMENTATION_SUMMARY.md` - Feature overview
-- [x] `plugin-manifest.json` - Cliq extension config
-- [x] `salesiq-bot-config.json` - SalesIQ bot config
-
-### Submission Description
-- [ ] Write clear project description (100-200 words)
-- [ ] List key features
-- [ ] Highlight unique value proposition
-- [ ] Mention tech stack
-- [ ] Include use cases
+### 13. Update Documentation
+- [ ] README.md has clear installation instructions
+- [ ] Environment variables documented
+- [ ] API endpoints documented
+- [ ] Screenshots added
+- [ ] Architecture diagram (optional)
 
 ---
 
-## 🎯 Submission Package
+## 📦 Submission Preparation
 
-### For Cliq Extension Submission
-- [ ] `plugin-manifest.json` (with production URLs)
-- [ ] Demo video (MP4, < 50MB)
-- [ ] Screenshots (3-5 images)
-- [ ] README with setup instructions
-- [ ] Architecture diagram
-- [ ] Test credentials (if needed)
+### 14. Final Checks
+- [ ] All console errors fixed
+- [ ] No hardcoded URLs (except in config)
+- [ ] Error handling works properly
+- [ ] Loading states show correctly
+- [ ] Toast notifications work
+- [ ] Mobile responsive (if web UI included)
 
-### For SalesIQ Bot Submission
-- [ ] `salesiq-bot-config.json` (with production URLs)
-- [ ] Demo video (MP4, < 50MB)
-- [ ] Screenshots (3-5 images)
-- [ ] Bot conversation flow diagram
-- [ ] Integration workflow documentation
-- [ ] Test credentials (if needed)
+### 15. Prepare Submission Files
+- [ ] `plugin-manifest.json` OR `salesiq-bot-config.json` (choose one)
+- [ ] Screenshots (5-10 images showing key features)
+- [ ] Demo video URL
+- [ ] README.md with installation guide
+- [ ] Privacy policy (if collecting user data)
+- [ ] Terms of service (if required)
 
----
-
-## 🔒 Security & Privacy
-
-- [ ] Remove all hardcoded API keys from code
-- [ ] Use environment variables for secrets
-- [ ] Add `.env` to `.gitignore`
-- [ ] Review permissions in manifest
-- [ ] Check data privacy compliance
-- [ ] Sanitize user inputs
-- [ ] Implement rate limiting
-- [ ] Add error handling
+### 16. Submission Details
+- [ ] **Name**: VibeVerse - Mood-Based Entertainment Bot
+- [ ] **Tagline**: Your Mood. Your Movie. AI-powered recommendations in Cliq.
+- [ ] **Category**: Entertainment / Productivity
+- [ ] **Description**: Write compelling 500-word description
+- [ ] **Key Features**: List 5-7 bullet points
+- [ ] **Use Cases**: Describe 2-3 real scenarios
+- [ ] **Pricing**: Free (for Marketplace review)
 
 ---
 
-## 📝 Final Checks
+## 🎯 Submission
 
-- [ ] Code is clean and commented
-- [ ] No console.log statements in production
-- [ ] Error messages are user-friendly
-- [ ] Loading states are implemented
-- [ ] Mobile responsive (if web component)
-- [ ] Accessibility considerations
-- [ ] Browser compatibility tested
-- [ ] Performance optimized
-
----
-
-## 🚀 Submission
-
-### Zoho Marketplace
-- [ ] Go to [Zoho Marketplace Developer Console](https://marketplace.zoho.com/developer)
-- [ ] Click "Create Extension"
-- [ ] Choose category: "Productivity" or "Team Collaboration"
-- [ ] Fill submission form:
-  - [ ] Extension name: "VibeVerse"
-  - [ ] Short description
-  - [ ] Long description
-  - [ ] Key features list
-  - [ ] Screenshots
-  - [ ] Demo video URL
-  - [ ] Support email
-  - [ ] Pricing (Free)
+### 17. Submit to Zoho Marketplace
+- [ ] Go to Zoho Marketplace → **Developer** → **My Extensions**
+- [ ] Click **Create Extension**
 - [ ] Upload manifest file
+- [ ] Fill in all details
+- [ ] Upload screenshots
+- [ ] Add demo video link
 - [ ] Submit for review
 
-### Post-Submission
+### 18. Post-Submission
 - [ ] Monitor submission status
-- [ ] Respond to review comments
-- [ ] Prepare for demo call (if requested)
-- [ ] Update documentation based on feedback
+- [ ] Respond to reviewer questions promptly
+- [ ] Fix any issues identified
+- [ ] Resubmit if needed
 
 ---
 
-## 📊 Success Metrics
+## 🎉 Success Criteria
 
-Track these after launch:
-- [ ] Number of installs
-- [ ] Active users
-- [ ] Bot interactions per day
-- [ ] Average response time
-- [ ] User feedback/ratings
-- [ ] API usage statistics
-
----
-
-## 🎉 Launch Checklist
-
-- [ ] Backend is live and stable
-- [ ] All tests passing
-- [ ] Documentation complete
-- [ ] Demo video recorded
-- [ ] Submission package ready
-- [ ] Support channels set up
-- [ ] Monitoring enabled
+Your submission is ready when:
+- ✅ Backend deployed and accessible
+- ✅ Webhook URLs updated in manifest
+- ✅ All bot commands tested and working
+- ✅ Demo video created and uploaded
+- ✅ Documentation complete
+- ✅ No critical bugs or errors
+- ✅ User experience is smooth
 
 ---
 
-## ✅ Ready to Submit!
+## 📞 Support
 
-**Deployed URL:** _________________________________
-
-**Submission Date:** _________________________________
-
-**Submission ID:** _________________________________
-
-**Status:** [ ] Submitted  [ ] Under Review  [ ] Approved  [ ] Published
+If you encounter issues:
+1. Check deployment logs on your platform
+2. Verify environment variables are set
+3. Test webhook endpoints with curl
+4. Check Cliq/SalesIQ bot logs
+5. Review error messages in console
 
 ---
 
-**Good luck with your submission!** 🚀
+## 🏆 Current Status
+
+**Update this section as you complete steps:**
+
+- [ ] Backend Deployed: `___________________`
+- [ ] Webhook URLs Updated: ❌
+- [ ] Cliq Extension Tested: ❌
+- [ ] Demo Video Created: ❌
+- [ ] Ready for Submission: ❌
+
+---
+
+**Last Updated**: ${new Date().toISOString()}

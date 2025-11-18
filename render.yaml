@@ -4,8 +4,8 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -29,12 +29,7 @@ services:
         sync: false
       - key: ZOHO_CRM_CLIENT_SECRET
         sync: false
-      - key: CLIQ_WEBHOOK_SECRET
-        sync: false
       - key: ENABLE_CLIQ_BOT
-        value: "true"
+        value: true
       - key: ENABLE_SALESIQ_BOT
-        value: "true"
-      - key: ENABLE_AUTO_CRM_SYNC
-        value: "false"
-    healthCheckPath: /api/health
+        value: true
