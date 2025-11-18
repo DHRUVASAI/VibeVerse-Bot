@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Frontend files (not needed for backend deployment)
+*.html
+*.css
+script.js
+vite.config.js
+pnpm-lock.yaml
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (optional - comment out if you want to include)
+*.md
+!server/README.md
+
+# Config files not needed in production
+docker-compose.yml
